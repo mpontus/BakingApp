@@ -2,6 +2,7 @@ package com.example.michael.bakingapp.data;
 
 import android.support.annotation.NonNull;
 
+import com.example.michael.bakingapp.data.schema.Recipe;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -18,18 +19,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class RecipeRepository {
+public class Repository {
     private OkHttpClient client;
     private Gson gson;
     private Scheduler mainThreadScheduler;
     private Scheduler backgroundThreadScheduler;
     private String recipesUrl;
 
-    public RecipeRepository(OkHttpClient client,
-                            Gson gson,
-                            @Named("MAIN") Scheduler mainThreadScheduler,
-                            @Named("BACKGROUND") Scheduler backgroundThreadScheduler,
-                            String recipesUrl) {
+    public Repository(OkHttpClient client,
+                      Gson gson,
+                      @Named("MAIN") Scheduler mainThreadScheduler,
+                      @Named("BACKGROUND") Scheduler backgroundThreadScheduler,
+                      String recipesUrl) {
         this.client = client;
         this.gson = gson;
         this.mainThreadScheduler = mainThreadScheduler;

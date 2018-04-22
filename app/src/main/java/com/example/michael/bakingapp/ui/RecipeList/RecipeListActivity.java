@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.michael.bakingapp.R;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
@@ -12,6 +13,9 @@ import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class RecipeListActivity extends DaggerAppCompatActivity implements RecipeListContract.View {
+
+    @Inject
+    Gson gson;
 
     @Inject
     RecipeListContract.Presenter presenter;
@@ -33,8 +37,20 @@ public class RecipeListActivity extends DaggerAppCompatActivity implements Recip
 
         recipesView.setAdapter(movieListAdapter);
         recipesView.setLayoutManager(movieListLayoutManager);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         this.presenter.attach();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        this.presenter.detach();
     }
 
     @Override

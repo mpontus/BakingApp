@@ -1,4 +1,4 @@
-package com.example.michael.bakingapp.data;
+package com.example.michael.bakingapp.data.schema;
 
 public class Recipe {
     private long id;

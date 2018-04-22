@@ -24,5 +24,7 @@ public interface RecipeListContract {
         void attach();
 
         void detach();
+
+        void onClick();
     }
 }

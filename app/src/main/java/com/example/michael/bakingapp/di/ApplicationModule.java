@@ -1,6 +1,6 @@
 package com.example.michael.bakingapp.di;
 
-import com.example.michael.bakingapp.data.RecipeRepository;
+import com.example.michael.bakingapp.data.Repository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -32,11 +32,11 @@ public class ApplicationModule {
     }
 
     @Provides
-    RecipeRepository provideRecipeRepository(OkHttpClient client,
-                                             Gson gson,
-                                             @Named("MAIN") Scheduler mainThreadScheduler,
-                                             @Named("BACKGROUND") Scheduler backgroundThreadScheduler) {
-        return new RecipeRepository(client, gson, mainThreadScheduler, backgroundThreadScheduler, RECIPE_LIST_URL);
+    Repository provideRecipeRepository(OkHttpClient client,
+                                       Gson gson,
+                                       @Named("MAIN") Scheduler mainThreadScheduler,
+                                       @Named("BACKGROUND") Scheduler backgroundThreadScheduler) {
+        return new Repository(client, gson, mainThreadScheduler, backgroundThreadScheduler, RECIPE_LIST_URL);
     }
 
     @Provides

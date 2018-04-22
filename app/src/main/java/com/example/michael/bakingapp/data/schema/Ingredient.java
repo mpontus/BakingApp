@@ -1,8 +1,8 @@
-package com.example.michael.bakingapp.data;
+package com.example.michael.bakingapp.data.schema;
 
 import com.google.gson.annotations.SerializedName;
 
-class Ingredient {
+public class Ingredient {
 
     private float quantity;
 
@@ -49,7 +49,7 @@ class Ingredient {
         K,
 
         @SerializedName("G")
-        GRAMM,
+        G,
 
         @SerializedName("OZ")
         OZ,

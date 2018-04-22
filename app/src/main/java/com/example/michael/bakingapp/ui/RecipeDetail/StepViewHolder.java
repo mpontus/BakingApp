@@ -1,4 +1,4 @@
-package com.example.michael.bakingapp.ui.RecipeList;
+package com.example.michael.bakingapp.ui.RecipeDetail;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,21 +8,22 @@ import com.example.michael.bakingapp.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-class RecipeItemViewHolder extends RecyclerView.ViewHolder implements RecipeListContract.ItemView {
-    private RecipeListContract.ItemPresenter presenter;
+public class StepViewHolder extends RecyclerView.ViewHolder
+        implements RecipeDetailContract.StepView {
+
+    private RecipeDetailContract.StepItemPresenter presenter;
 
     @BindView(R.id.title)
     TextView titleView;
 
-    RecipeItemViewHolder(View itemView) {
+    public StepViewHolder(View itemView) {
         super(itemView);
 
         ButterKnife.bind(this, itemView);
     }
 
-    public void attachPresenter(RecipeListContract.ItemPresenter presenter) {
+    public void attachPresenter(RecipeDetailContract.StepItemPresenter presenter) {
         if (this.presenter != null) {
             this.presenter.detach();
         }
@@ -35,10 +36,5 @@ class RecipeItemViewHolder extends RecyclerView.ViewHolder implements RecipeList
     @Override
     public void setTitle(String title) {
         titleView.setText(title);
-    }
-
-    @OnClick(R.id.title)
-    public void onClick(View view) {
-        presenter.onClick();
     }
 }

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.michael.bakingapp.data.Recipe;
-import com.example.michael.bakingapp.data.RecipeRepository;
+import com.example.michael.bakingapp.data.schema.Recipe;
+import com.example.michael.bakingapp.data.Repository;
 import com.example.michael.bakingapp.di.ActivityContext;
 
 import dagger.Binds;
@@ -36,7 +36,7 @@ public abstract class RecipeListModule {
     }
 
     @Provides
-    static Single<Recipe[]> provideRecipes(RecipeRepository repository) {
+    static Single<Recipe[]> provideRecipes(Repository repository) {
         return repository.getRecipes();
     }
 }

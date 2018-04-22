@@ -1,6 +1,6 @@
-package com.example.michael.bakingapp.data;
+package com.example.michael.bakingapp.data.schema;
 
-class Step {
+public class Step {
     private long id;
 
     private String shortDescription;

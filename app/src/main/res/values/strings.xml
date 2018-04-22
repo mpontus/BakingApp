@@ -1,3 +1,38 @@
 <resources>
     <string name="app_name">BakingApp</string>
+
+    <plurals name="quantity_cup">
+        <item quantity="one">%s cup</item>
+        <item quantity="other">%s cups</item>
+    </plurals>
+
+    <plurals name="quantity_tblsp">
+        <item quantity="one">%s tablespoon</item>
+        <item quantity="other">%s tablespoons</item>
+    </plurals>
+
+    <plurals name="quantity_tsp">
+        <item quantity="one">%s teaspoon</item>
+        <item quantity="other">%s teaspoons</item>
+    </plurals>
+
+    <plurals name="quantity_k">
+        <item quantity="one">%s kilo</item>
+        <item quantity="other">%s kilos</item>
+    </plurals>
+
+    <plurals name="quantity_g">
+        <item quantity="one">%s gram</item>
+        <item quantity="other">%s grams</item>
+    </plurals>
+
+    <plurals name="quantity_oz">
+        <item quantity="one">%s oz</item>
+        <item quantity="other">%s oz</item>
+    </plurals>
+
+    <plurals name="quantity_unit">
+        <item quantity="one">%s unit</item>
+        <item quantity="other">%s units</item>
+    </plurals>
 </resources>
