@@ -25,4 +25,26 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    // Install Dagger for DI
+    implementation 'com.google.dagger:dagger:2.14.1'
+    implementation "com.google.dagger:dagger-android:2.14.1"
+    implementation 'com.google.dagger:dagger-android-support:2.14.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
+    annotationProcessor "com.google.dagger:dagger-android-processor:2.14.1"
+
+    // Install Butterknife for binding views to activities
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    // Install RxJava for reactive programming
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
+
+    // Install retrofit and adapters for requesting recipes from the network
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+
 }
