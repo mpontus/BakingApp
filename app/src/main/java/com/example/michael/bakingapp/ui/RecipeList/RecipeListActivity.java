@@ -1,27 +1,44 @@
 package com.example.michael.bakingapp.ui.RecipeList;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 
 import com.example.michael.bakingapp.R;
-import com.example.michael.bakingapp.data.RecipeRepository;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 
-public class RecipeListActivity extends DaggerAppCompatActivity {
+public class RecipeListActivity extends DaggerAppCompatActivity implements RecipeListContract.View {
 
     @Inject
-    RecipeRepository repo;
+    RecipeListContract.Presenter presenter;
+
+    @Inject
+    RecipeListAdapter movieListAdapter;
+
+    @Inject
+    RecyclerView.LayoutManager movieListLayoutManager;
+
+    @BindView(R.id.recipes)
+    RecyclerView recipesView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_list);
+        setContentView(R.layout.recipe_list);
+        ButterKnife.bind(this);
 
-        repo.getRecipes().subscribe(recipes -> {
-            Log.v("RecipeListActivity", "" + recipes.length);
-        });
+        recipesView.setAdapter(movieListAdapter);
+        recipesView.setLayoutManager(movieListLayoutManager);
+
+        this.presenter.attach();
+    }
+
+    @Override
+    public void setRecipeCount(int count) {
+        this.movieListAdapter.setItemCount(count);
     }
 }
