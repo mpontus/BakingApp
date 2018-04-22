@@ -45,9 +45,11 @@ public class RecipeDetailFragment extends DaggerFragment {
 
         ButterKnife.bind(this, view);
 
+        ingredientsView.setNestedScrollingEnabled(false);
         ingredientsView.setAdapter(ingredientListAdapter);
         ingredientsView.setLayoutManager(ingredientListLayoutManager);
 
+        stepsView.setNestedScrollingEnabled(false);
         stepsView.setAdapter(stepListAdapter);
         stepsView.setLayoutManager(stepListLayoutManager);
 
