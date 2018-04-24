@@ -18,8 +18,6 @@ public interface RecipeDetailContract {
         void setStepVideoUrl(String videoUrl);
 
         void setStepDescription(String description);
-
-        void launchStepActivity(Step step);
     }
 
     interface IngredientView {

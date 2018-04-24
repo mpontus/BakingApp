@@ -44,7 +44,12 @@ public abstract class RecipeDetailModule {
     }
 
     @Provides
-    static RecipeDetailContract.SelectStepStrategy provideSelectStepStrategy(Navigator navigator) {
+    static RecipeDetailContract.SelectStepStrategy provideSelectStepStrategy(RecipeDetailActivity activity,
+                                                                             Navigator navigator) {
+        if (activity.isMasterDetailLayout()) {
+            return new SelectStepUpdateView(activity);
+        }
+
         return new SelectStepLaunchActivity(navigator);
     }
 

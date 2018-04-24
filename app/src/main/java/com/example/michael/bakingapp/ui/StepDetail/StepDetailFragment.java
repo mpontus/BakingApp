@@ -32,4 +32,7 @@ public class StepDetailFragment extends Fragment {
     public void setDescription(String description) {
         descriptionView.setText(description);
     }
+
+    public void setVideoUrl(String videoUrl) {
+    }
 }

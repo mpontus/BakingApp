@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 
 import com.example.michael.bakingapp.R;
-import com.example.michael.bakingapp.data.schema.Step;
+import com.example.michael.bakingapp.ui.StepDetail.StepDetailFragment;
 
 import javax.inject.Inject;
 
@@ -20,6 +20,7 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
     public static final String EXTRA_RECIPE = "EXTRA_RECIPE";
 
     RecipeDetailFragment recipeDetailFragment;
+    StepDetailFragment stepDetailFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +32,12 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.add(R.id.main, recipeDetailFragment);
+
+        if (findViewById(R.id.secondary) != null) {
+            stepDetailFragment = new StepDetailFragment();
+
+            fragmentTransaction.add(R.id.secondary, stepDetailFragment);
+        }
 
         fragmentTransaction.commit();
     }
@@ -61,16 +68,19 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
 
     @Override
     public void setStepVideoUrl(String videoUrl) {
-
+        if (stepDetailFragment != null) {
+            stepDetailFragment.setVideoUrl(videoUrl);
+        }
     }
 
     @Override
     public void setStepDescription(String description) {
-
+        if (stepDetailFragment != null) {
+            stepDetailFragment.setDescription(description);
+        }
     }
 
-    @Override
-    public void launchStepActivity(Step step) {
-
+    public boolean isMasterDetailLayout() {
+        return stepDetailFragment != null;
     }
 }

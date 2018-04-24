@@ -46,7 +46,7 @@ public class StepDetailActivity extends DaggerAppCompatActivity implements StepD
 
     @Override
     public void setVideoUrl(String videoUrl) {
-
+        stepDetailFragment.setVideoUrl(videoUrl);
     }
 
     @Override
