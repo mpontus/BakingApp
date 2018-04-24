@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">BakingApp</string>
+    <string name="steps">Steps</string>
+    <string name="ingredients">Ingredients</string>
 
     <plurals name="quantity_cup">
         <item quantity="one">%s cup</item>

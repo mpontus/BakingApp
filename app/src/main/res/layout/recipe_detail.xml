@@ -9,10 +9,24 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/ingredientsHeader"
+            style="@style/Subheader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ingredients" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ingredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/stepsHeader"
+            style="@style/Subheader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/steps" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/steps"
