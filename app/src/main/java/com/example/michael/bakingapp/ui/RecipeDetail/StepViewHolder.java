@@ -10,7 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class StepViewHolder extends RecyclerView.ViewHolder
-        implements RecipeDetailContract.StepView {
+        implements RecipeDetailContract.StepView, View.OnClickListener {
 
     private RecipeDetailContract.StepItemPresenter presenter;
 
@@ -21,6 +21,8 @@ public class StepViewHolder extends RecyclerView.ViewHolder
         super(itemView);
 
         ButterKnife.bind(this, itemView);
+
+        itemView.setOnClickListener(this);
     }
 
     public void attachPresenter(RecipeDetailContract.StepItemPresenter presenter) {
@@ -36,5 +38,12 @@ public class StepViewHolder extends RecyclerView.ViewHolder
     @Override
     public void setTitle(String title) {
         titleView.setText(title);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (this.presenter != null) {
+            this.presenter.onClick();
+        }
     }
 }

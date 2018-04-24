@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.michael.bakingapp.data.Navigator;
 import com.example.michael.bakingapp.data.schema.Recipe;
 import com.example.michael.bakingapp.di.ActivityContext;
 import com.google.gson.Gson;
@@ -43,8 +44,8 @@ public abstract class RecipeDetailModule {
     }
 
     @Provides
-    static RecipeDetailContract.SelectStepStrategy provideSelectStepStrategy(RecipeDetailContract.View view) {
-        return new SelectStepLaunchActivity(view);
+    static RecipeDetailContract.SelectStepStrategy provideSelectStepStrategy(Navigator navigator) {
+        return new SelectStepLaunchActivity(navigator);
     }
 
     @Provides
