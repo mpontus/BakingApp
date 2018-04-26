@@ -8,9 +8,10 @@ import com.example.michael.bakingapp.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-class RecipeItemViewHolder extends RecyclerView.ViewHolder implements RecipeListContract.ItemView {
+class RecipeItemViewHolder extends RecyclerView.ViewHolder
+        implements RecipeListContract.ItemView, View.OnClickListener {
+
     private RecipeListContract.ItemPresenter presenter;
 
     @BindView(R.id.title)
@@ -20,6 +21,8 @@ class RecipeItemViewHolder extends RecyclerView.ViewHolder implements RecipeList
         super(itemView);
 
         ButterKnife.bind(this, itemView);
+
+        itemView.setOnClickListener(this);
     }
 
     public void attachPresenter(RecipeListContract.ItemPresenter presenter) {
@@ -37,7 +40,6 @@ class RecipeItemViewHolder extends RecyclerView.ViewHolder implements RecipeList
         titleView.setText(title);
     }
 
-    @OnClick(R.id.title)
     public void onClick(View view) {
         presenter.onClick();
     }

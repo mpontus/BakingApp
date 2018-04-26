@@ -1,11 +1,11 @@
 package com.example.michael.bakingapp.ui.RecipeList;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.michael.bakingapp.data.schema.Recipe;
 import com.example.michael.bakingapp.data.Repository;
+import com.example.michael.bakingapp.data.schema.Recipe;
 import com.example.michael.bakingapp.di.ActivityContext;
 
 import dagger.Binds;
@@ -32,7 +32,7 @@ public abstract class RecipeListModule {
 
     @Provides
     static RecyclerView.LayoutManager provideLayoutManager(@ActivityContext Context context) {
-        return new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        return new GridLayoutManager(context, 2);
     }
 
     @Provides
