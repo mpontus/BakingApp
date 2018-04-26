@@ -55,4 +55,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.google.code.gson:gson:2.8.2'
 
+    // Exoplayer for videos
+    implementation 'com.google.android.exoplayer:exoplayer:2.7.3'
 }
