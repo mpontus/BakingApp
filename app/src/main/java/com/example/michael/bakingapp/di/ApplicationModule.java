@@ -1,58 +1,37 @@
 package com.example.michael.bakingapp.di;
 
-import com.example.michael.bakingapp.data.Repository;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import android.app.Application;
+import android.content.Context;
 
 import javax.inject.Named;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
 
 @Module
-public class ApplicationModule {
-    private static final String RECIPE_LIST_URL =
-            "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+abstract class ApplicationModule {
+    @Binds
+    abstract Context provideContext(Application application);
 
     @Provides
-    Gson provideGson() {
-        return new GsonBuilder()
-                .create();
-    }
-
-    @Provides
-    OkHttpClient provideOkHttpClient() {
-        return new OkHttpClient.Builder()
-                .build();
-    }
-
-    @Provides
-    Repository provideRecipeRepository(OkHttpClient client,
-                                       Gson gson,
-                                       @Named("MAIN") Scheduler mainThreadScheduler,
-                                       @Named("BACKGROUND") Scheduler backgroundThreadScheduler) {
-        return new Repository(client, gson, mainThreadScheduler, backgroundThreadScheduler, RECIPE_LIST_URL);
-    }
-
-    @Provides
-    CompositeDisposable provideCompositeDisposable() {
+    static CompositeDisposable provideCompositeDisposable() {
         return new CompositeDisposable();
     }
 
     @Provides
     @Named("MAIN")
-    Scheduler provideMainThreadScheduler() {
+    static Scheduler provideMainThreadScheduler() {
         return AndroidSchedulers.mainThread();
     }
 
     @Provides
     @Named("BACKGROUND")
-    Scheduler provideBackgroundThreadScheduler() {
+    static Scheduler provideBackgroundThreadScheduler() {
         return Schedulers.io();
     }
 }
