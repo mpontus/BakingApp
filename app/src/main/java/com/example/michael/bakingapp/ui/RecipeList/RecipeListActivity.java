@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.michael.bakingapp.R;
+import com.example.michael.bakingapp.data.schema.Recipe;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -12,7 +13,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 
-public class RecipeListActivity extends DaggerAppCompatActivity implements RecipeListContract.View {
+public class RecipeListActivity extends DaggerAppCompatActivity
+        implements RecipeListContract.View, RecipeListAdapter.ViewHolder.OnClickListener {
 
     @Inject
     Gson gson;
@@ -53,8 +55,12 @@ public class RecipeListActivity extends DaggerAppCompatActivity implements Recip
         this.presenter.detach();
     }
 
+    public void setRecipes(Recipe[] recipes) {
+        movieListAdapter.setRecipes(recipes);
+    }
+
     @Override
-    public void setRecipeCount(int count) {
-        this.movieListAdapter.setItemCount(count);
+    public void onClick(Recipe recipe) {
+        presenter.onRecipeClick(recipe);
     }
 }

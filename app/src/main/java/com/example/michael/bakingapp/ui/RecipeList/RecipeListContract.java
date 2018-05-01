@@ -1,30 +1,18 @@
 package com.example.michael.bakingapp.ui.RecipeList;
 
+import com.example.michael.bakingapp.data.schema.Recipe;
+
 public interface RecipeListContract {
 
     interface View {
-        void setRecipeCount(int count);
+        void setRecipes(Recipe[] recipes);
     }
 
     interface Presenter {
         void attach();
 
         void detach();
-    }
 
-    interface ItemPresenterFactory {
-        ItemPresenter getItemPresenter(ItemView view, int position);
-    }
-
-    interface ItemView {
-        void setTitle(String title);
-    }
-
-    interface ItemPresenter {
-        void attach();
-
-        void detach();
-
-        void onClick();
+        void onRecipeClick(Recipe recipe);
     }
 }

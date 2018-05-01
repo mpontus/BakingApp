@@ -25,10 +25,10 @@ public abstract class RecipeListModule {
     @Binds
     abstract RecipeListContract.Presenter providePresenter(RecipeListPresenter presenter);
 
-    @Binds
-    abstract RecipeListContract.ItemPresenterFactory provideItemPresenterFactory(
-            RecipeListPresenter presenter
-    );
+    @Provides
+    static RecipeListAdapter provideRecipeListAdapter(RecipeListActivity activity) {
+        return new RecipeListAdapter(activity);
+    }
 
     @Provides
     static RecyclerView.LayoutManager provideLayoutManager(@ActivityContext Context context) {
