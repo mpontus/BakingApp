@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.michael.bakingapp.R;
+import com.example.michael.bakingapp.data.schema.Step;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
@@ -23,8 +24,6 @@ import butterknife.ButterKnife;
 import dagger.android.support.DaggerFragment;
 
 public class StepDetailFragment extends DaggerFragment {
-
-    private String videoUrl;
 
     @Nullable
     @BindView(R.id.description)
@@ -53,21 +52,19 @@ public class StepDetailFragment extends DaggerFragment {
         return itemView;
     }
 
-    public void setDescription(String description) {
+    public void setStep(Step step) {
         if (descriptionView != null) {
-            descriptionView.setText(description);
+            descriptionView.setText(step.getDescription());
+        }
+
+
+        if (player.getContentPosition() == 0) {
+            Uri uri = Uri.parse(step.getVideoURL());
+            ExtractorMediaSource mediaSource = mediaSourceFactory.createMediaSource(uri);
+
+            player.prepare(mediaSource);
+            player.setPlayWhenReady(true);
         }
     }
 
-    public void setVideoUrl(String videoUrl) {
-        if (player.getContentPosition() != 0) {
-            return;
-        }
-
-        Uri uri = Uri.parse(videoUrl);
-        ExtractorMediaSource mediaSource = mediaSourceFactory.createMediaSource(uri);
-
-        player.prepare(mediaSource);
-        player.setPlayWhenReady(true);
-    }
 }

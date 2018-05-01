@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.example.michael.bakingapp.R;
+import com.example.michael.bakingapp.data.schema.Step;
 
 import javax.inject.Inject;
 
@@ -45,12 +46,7 @@ public class StepDetailActivity extends DaggerAppCompatActivity implements StepD
     }
 
     @Override
-    public void setVideoUrl(String videoUrl) {
-        stepDetailFragment.setVideoUrl(videoUrl);
-    }
-
-    @Override
-    public void setDescription(String description) {
-        stepDetailFragment.setDescription(description);
+    public void setStep(Step step) {
+        stepDetailFragment.setStep(step);
     }
 }

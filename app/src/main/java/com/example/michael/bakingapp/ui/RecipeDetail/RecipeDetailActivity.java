@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 
 import com.example.michael.bakingapp.R;
+import com.example.michael.bakingapp.data.schema.Recipe;
+import com.example.michael.bakingapp.data.schema.Step;
 import com.example.michael.bakingapp.ui.StepDetail.StepDetailFragment;
 
 import javax.inject.Inject;
@@ -12,7 +14,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class RecipeDetailActivity extends DaggerAppCompatActivity
-        implements RecipeDetailContract.View {
+        implements RecipeDetailContract.View, StepsAdapter.ViewHolder.OnClickListener {
 
     @Inject
     RecipeDetailContract.Presenter presenter;
@@ -57,29 +59,23 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
     }
 
     @Override
-    public void setIngredientCount(int count) {
-        recipeDetailFragment.setIngredientsCount(count);
+    public void setRecipe(Recipe recipe) {
+        recipeDetailFragment.setRecipe(recipe);
     }
 
     @Override
-    public void setStepCount(int count) {
-        recipeDetailFragment.setStepsCount(count);
-    }
-
-    @Override
-    public void setStepVideoUrl(String videoUrl) {
+    public void setStep(Step step) {
         if (stepDetailFragment != null) {
-            stepDetailFragment.setVideoUrl(videoUrl);
+            stepDetailFragment.setStep(step);
         }
     }
 
     @Override
-    public void setStepDescription(String description) {
-        if (stepDetailFragment != null) {
-            stepDetailFragment.setDescription(description);
-        }
+    public void onClick(Step step) {
+        presenter.onStepClick(step);
     }
 
+    @Override
     public boolean isMasterDetailLayout() {
         return stepDetailFragment != null;
     }

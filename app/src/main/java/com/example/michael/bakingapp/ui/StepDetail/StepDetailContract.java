@@ -1,10 +1,10 @@
 package com.example.michael.bakingapp.ui.StepDetail;
 
+import com.example.michael.bakingapp.data.schema.Step;
+
 public interface StepDetailContract {
     interface View {
-        void setVideoUrl(String videoUrl);
-
-        void setDescription(String description);
+        public void setStep(Step step);
     }
 
     interface Presenter {

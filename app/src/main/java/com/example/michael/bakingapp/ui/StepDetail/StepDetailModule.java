@@ -11,7 +11,6 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
-import io.reactivex.Single;
 
 @Module
 public abstract class StepDetailModule {
@@ -22,7 +21,7 @@ public abstract class StepDetailModule {
     abstract StepDetailContract.Presenter providePresenter(StepDetailPresenter presenter);
 
     @Provides
-    static Single<Step> provideStep(StepDetailActivity activity, Gson gson) {
+    static Step provideStep(StepDetailActivity activity, Gson gson) {
         Intent intent = activity.getIntent();
         String serializedStep = intent.getStringExtra(StepDetailActivity.EXTRA_STEP);
 
@@ -30,7 +29,7 @@ public abstract class StepDetailModule {
             throw new RuntimeException("Step must be provided to step detail activity");
         }
 
-        return Single.just(gson.fromJson(serializedStep, Step.class));
+        return gson.fromJson(serializedStep, Step.class);
     }
 
     @Provides

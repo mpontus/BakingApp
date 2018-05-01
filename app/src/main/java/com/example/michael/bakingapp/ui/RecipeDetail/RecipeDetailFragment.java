@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.michael.bakingapp.R;
+import com.example.michael.bakingapp.data.schema.Recipe;
 
 import javax.inject.Inject;
 
@@ -18,16 +19,16 @@ import dagger.android.support.DaggerFragment;
 
 public class RecipeDetailFragment extends DaggerFragment {
     @Inject
-    IngredientListAdapter ingredientListAdapter;
+    IngredientListAdapter ingredientsAdapter;
 
     @Inject
-    RecyclerView.LayoutManager ingredientListLayoutManager;
+    RecyclerView.LayoutManager ingredientsLayoutManager;
 
     @Inject
-    StepListAdapter stepListAdapter;
+    StepsAdapter stepsAdapter;
 
     @Inject
-    RecyclerView.LayoutManager stepListLayoutManager;
+    RecyclerView.LayoutManager stepsLayoutManager;
 
     @BindView(R.id.ingredients)
     RecyclerView ingredientsView;
@@ -46,21 +47,18 @@ public class RecipeDetailFragment extends DaggerFragment {
         ButterKnife.bind(this, view);
 
         ingredientsView.setNestedScrollingEnabled(false);
-        ingredientsView.setAdapter(ingredientListAdapter);
-        ingredientsView.setLayoutManager(ingredientListLayoutManager);
+        ingredientsView.setAdapter(ingredientsAdapter);
+        ingredientsView.setLayoutManager(ingredientsLayoutManager);
 
         stepsView.setNestedScrollingEnabled(false);
-        stepsView.setAdapter(stepListAdapter);
-        stepsView.setLayoutManager(stepListLayoutManager);
+        stepsView.setAdapter(stepsAdapter);
+        stepsView.setLayoutManager(stepsLayoutManager);
 
         return view;
     }
 
-    public void setIngredientsCount(int count) {
-        ingredientListAdapter.setItemCount(count);
-    }
-
-    public void setStepsCount(int count) {
-        stepListAdapter.setItemCount(count);
+    public void setRecipe(Recipe recipe) {
+        ingredientsAdapter.setIngredients(recipe.getIngredients());
+        stepsAdapter.setSteps(recipe.getSteps());
     }
 }
