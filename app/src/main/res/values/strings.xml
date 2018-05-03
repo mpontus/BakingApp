@@ -37,4 +37,7 @@
         <item quantity="one">%s unit</item>
         <item quantity="other">%s units</item>
     </plurals>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
 </resources>
