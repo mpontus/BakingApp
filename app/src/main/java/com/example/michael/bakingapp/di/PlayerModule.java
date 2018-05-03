@@ -12,8 +12,6 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -45,7 +43,7 @@ public class PlayerModule {
         return new DefaultTrackSelector(bandwidthMeter);
     }
 
-    @Singleton
+    @ActivityScoped
     @Provides
     SimpleExoPlayer provideSimpleExoPlayer(Context context, TrackSelector trackSelector) {
         return ExoPlayerFactory.newSimpleInstance(context, trackSelector);

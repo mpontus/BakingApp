@@ -17,10 +17,10 @@ public abstract class ActivityBindingModule {
     abstract RecipeListActivity recipeListActivity();
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = RecipeDetailModule.class)
+    @ContributesAndroidInjector(modules = {RecipeDetailModule.class, PlayerModule.class})
     abstract RecipeDetailActivity recipeDetailActivity();
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = StepDetailModule.class)
+    @ContributesAndroidInjector(modules = {StepDetailModule.class, PlayerModule.class})
     abstract StepDetailActivity stepDetailActivity();
 }
