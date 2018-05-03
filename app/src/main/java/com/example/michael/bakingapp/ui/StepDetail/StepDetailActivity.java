@@ -1,7 +1,9 @@
 package com.example.michael.bakingapp.ui.StepDetail;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.WindowManager;
 
 import com.example.michael.bakingapp.R;
 import com.example.michael.bakingapp.data.schema.Step;
@@ -29,6 +31,25 @@ public class StepDetailActivity extends DaggerAppCompatActivity implements StepD
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main, stepDetailFragment)
                 .commit();
+
+        applyWindowConfiguration(getResources().getConfiguration());
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        applyWindowConfiguration(newConfig);
+    }
+
+    private void applyWindowConfiguration(Configuration config) {
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getSupportActionBar().hide();
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            getSupportActionBar().show();
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
     }
 
     @Override
