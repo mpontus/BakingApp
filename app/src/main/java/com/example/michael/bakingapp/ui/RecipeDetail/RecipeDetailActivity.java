@@ -3,6 +3,8 @@ package com.example.michael.bakingapp.ui.RecipeDetail;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 
 import com.example.michael.bakingapp.R;
 import com.example.michael.bakingapp.data.schema.Recipe;
@@ -42,6 +44,23 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
         }
 
         fragmentTransaction.commit();
+
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -60,6 +79,12 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
 
     @Override
     public void setRecipe(Recipe recipe) {
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setTitle(recipe.getName());
+        }
+
         recipeDetailFragment.setRecipe(recipe);
     }
 
