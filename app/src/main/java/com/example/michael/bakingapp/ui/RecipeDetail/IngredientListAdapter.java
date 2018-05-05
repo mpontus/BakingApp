@@ -1,6 +1,5 @@
 package com.example.michael.bakingapp.ui.RecipeDetail;
 
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,14 +9,20 @@ import android.widget.TextView;
 
 import com.example.michael.bakingapp.R;
 import com.example.michael.bakingapp.data.schema.Ingredient;
-
-import java.text.DecimalFormat;
+import com.example.michael.bakingapp.ui.utils.QuantityFormatter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.IngredientViewHolder> {
+
+    private final QuantityFormatter quantityFormatter;
+
     private Ingredient[] ingredients;
+
+    IngredientListAdapter(QuantityFormatter quantityFormatter) {
+        this.quantityFormatter = quantityFormatter;
+    }
 
     @NonNull
     @Override
@@ -25,7 +30,7 @@ class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.I
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.ingredient_item, parent, false);
 
-        return new IngredientViewHolder(itemView);
+        return new IngredientViewHolder(itemView, quantityFormatter);
     }
 
     @Override
@@ -50,54 +55,27 @@ class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.I
 
     static class IngredientViewHolder extends RecyclerView.ViewHolder {
 
+        private final QuantityFormatter quantityFormatter;
+
         @BindView(R.id.ingredient)
         TextView ingredientView;
 
         @BindView(R.id.quantity)
         TextView quantityView;
 
-        public IngredientViewHolder(View itemView) {
+        public IngredientViewHolder(View itemView, QuantityFormatter quantityFormatter) {
             super(itemView);
+            this.quantityFormatter = quantityFormatter;
 
             ButterKnife.bind(this, itemView);
         }
 
         public void setIngredient(Ingredient ingredient) {
+            String quantityString = quantityFormatter.getQuantityString(ingredient.getQuantity(),
+                    ingredient.getMeasure());
+
             ingredientView.setText(ingredient.getIngredient());
-            quantityView.setText(getQuantityString(ingredient.getQuantity(), ingredient.getMeasure()));
-        }
-
-        private String getQuantityString(float quantity, Ingredient.Measure measure) {
-            Resources resources = itemView.getResources();
-            int measureStringResource = getMeasureResourceString(measure);
-            DecimalFormat quantityFormat = quantity == (int) quantity
-                    ? new DecimalFormat("#")
-                    : new DecimalFormat("#.#");
-
-            return resources.getQuantityString(measureStringResource,
-                    (int) quantity,
-                    quantityFormat.format(quantity));
-        }
-
-        private int getMeasureResourceString(Ingredient.Measure measure) {
-            switch (measure) {
-                case CUP:
-                    return R.plurals.quantity_cup;
-                case TBLSP:
-                    return R.plurals.quantity_tblsp;
-                case TSP:
-                    return R.plurals.quantity_tsp;
-                case K:
-                    return R.plurals.quantity_k;
-                case G:
-                    return R.plurals.quantity_g;
-                case OZ:
-                    return R.plurals.quantity_oz;
-                case UNIT:
-                    return R.plurals.quantity_unit;
-                default:
-                    throw new RuntimeException("Unknown measurement");
-            }
+            quantityView.setText(quantityString);
         }
     }
 }

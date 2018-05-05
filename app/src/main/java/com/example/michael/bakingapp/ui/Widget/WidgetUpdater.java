@@ -9,6 +9,7 @@ import android.widget.RemoteViews;
 import com.example.michael.bakingapp.R;
 import com.example.michael.bakingapp.data.Preferences;
 import com.example.michael.bakingapp.data.Repository;
+import com.example.michael.bakingapp.data.schema.Recipe;
 
 import javax.inject.Inject;
 
@@ -29,6 +30,7 @@ public class WidgetUpdater {
 
     public void updateWidget(int appWidgetId) {
         long recipeId = preferences.getRecipeIdForWidget(appWidgetId);
+        Recipe recipe = repository.getRecipeByIdSync(recipeId);
 
         if (recipeId == -1) {
             return;
@@ -42,6 +44,7 @@ public class WidgetUpdater {
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
+        views.setTextViewText(R.id.recipe, recipe.getName());
         views.setRemoteAdapter(R.id.ingredients, intent);
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);

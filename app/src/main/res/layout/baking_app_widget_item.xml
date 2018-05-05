@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ingredient"
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="#fff">
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
-</TextView>
+    <TextView
+        android:id="@+id/ingredient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center|start"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginBottom="4dp"
+        tools:text="Ingredient qwe jhsdfgmn skjhdfg jkhsdfkj shdkjshd fkjsdhf kjshdfkj shdkjfh ksjdhf kjsdhf kjhsdf" />
+
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Quantity"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+</LinearLayout>

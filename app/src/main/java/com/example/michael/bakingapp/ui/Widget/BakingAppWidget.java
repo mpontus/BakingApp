@@ -3,6 +3,7 @@ package com.example.michael.bakingapp.ui.Widget;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 
 import com.example.michael.bakingapp.data.Preferences;
 import com.example.michael.bakingapp.ui.WidgetConfigure.WidgetConfigureActivity;
@@ -24,9 +25,14 @@ public class BakingAppWidget extends AppWidgetProvider {
     Preferences preferences;
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onReceive(Context context, Intent intent) {
         AndroidInjection.inject(this, context);
 
+        super.onReceive(context, intent);
+    }
+
+    @Override
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             widgetUpdater.updateWidget(appWidgetId);

@@ -3,6 +3,7 @@ package com.example.michael.bakingapp.di;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
 import javax.inject.Named;
@@ -23,6 +24,11 @@ abstract class ApplicationModule {
     @Provides
     static SharedPreferences provideSharedPreferences(Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    @Provides
+    static Resources provideResources(Application application) {
+        return application.getResources();
     }
 
     @Provides

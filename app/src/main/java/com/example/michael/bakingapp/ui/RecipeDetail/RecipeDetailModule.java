@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.michael.bakingapp.data.schema.Recipe;
 import com.example.michael.bakingapp.di.ActivityContext;
+import com.example.michael.bakingapp.ui.utils.QuantityFormatter;
 import com.google.gson.Gson;
 
 import dagger.Binds;
@@ -36,8 +37,8 @@ public abstract class RecipeDetailModule {
     }
 
     @Provides
-    static IngredientListAdapter provideIngredientsAdapter() {
-        return new IngredientListAdapter();
+    static IngredientListAdapter provideIngredientsAdapter(QuantityFormatter quantityFormatter) {
+        return new IngredientListAdapter(quantityFormatter);
     }
 
     @Provides

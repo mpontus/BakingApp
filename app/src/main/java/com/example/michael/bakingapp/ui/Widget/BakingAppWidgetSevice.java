@@ -5,12 +5,11 @@ import android.widget.RemoteViewsService;
 
 import com.example.michael.bakingapp.data.Preferences;
 import com.example.michael.bakingapp.data.Repository;
+import com.example.michael.bakingapp.ui.utils.QuantityFormatter;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 import dagger.android.AndroidInjection;
-import io.reactivex.disposables.CompositeDisposable;
 
 public class BakingAppWidgetSevice extends RemoteViewsService {
 
@@ -21,7 +20,7 @@ public class BakingAppWidgetSevice extends RemoteViewsService {
     Preferences preferences;
 
     @Inject
-    Provider<CompositeDisposable> compositeDisposableProvider;
+    QuantityFormatter quantityFormatter;
 
     @Override
     public void onCreate() {
@@ -37,6 +36,6 @@ public class BakingAppWidgetSevice extends RemoteViewsService {
                 intent,
                 repository,
                 preferences,
-                compositeDisposableProvider.get());
+                quantityFormatter);
     }
 }

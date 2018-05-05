@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Header" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+
     <style name="Subheader">
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="color">@color/colorSecondaryGrey</item>
