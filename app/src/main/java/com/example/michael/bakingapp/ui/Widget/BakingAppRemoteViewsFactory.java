@@ -10,6 +10,7 @@ import com.example.michael.bakingapp.R;
 import com.example.michael.bakingapp.data.Preferences;
 import com.example.michael.bakingapp.data.Repository;
 import com.example.michael.bakingapp.data.schema.Ingredient;
+import com.example.michael.bakingapp.data.schema.Recipe;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -36,12 +37,9 @@ public class BakingAppRemoteViewsFactory implements RemoteViewsService.RemoteVie
 
     @Override
     public void onCreate() {
-        compositeDisposable.add(
-                repository.getRecipeById(preferences.getRecipeIdForWidget(widgetId))
-                        .subscribe(recipe -> {
-                            this.ingredients = recipe.getIngredients();
-                        })
-        );
+        Recipe recipe = repository.getRecipeByIdSync(preferences.getRecipeIdForWidget(widgetId));
+
+        this.ingredients = recipe.getIngredients();
     }
 
     @Override

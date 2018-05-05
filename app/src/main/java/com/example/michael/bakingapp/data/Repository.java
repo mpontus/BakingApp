@@ -39,7 +39,7 @@ public class Repository {
         this.recipesUrl = recipesUrl;
     }
 
-    public Single<Recipe[]> getRecipes() {
+    public Single<Recipe[]> getRecipesInDefaultThread() {
         Single<Recipe[]> objectSingle = Single.create(emitter -> {
             Request request = new Request.Builder()
                     .url(recipesUrl)
@@ -67,9 +67,13 @@ public class Repository {
         });
 
         return objectSingle
-                .subscribeOn(backgroundThreadScheduler)
-                .observeOn(mainThreadScheduler)
                 .cache();
+    }
+
+    public Single<Recipe[]> getRecipes() {
+        return getRecipesInDefaultThread()
+                .subscribeOn(backgroundThreadScheduler)
+                .observeOn(mainThreadScheduler);
     }
 
     public Single<Recipe> getRecipeById(long id) {
@@ -78,5 +82,13 @@ public class Repository {
                 .flatMap(Observable::fromArray)
                 .filter(recipe -> recipe.getId() == id)
                 .singleOrError();
+    }
+
+    public Recipe getRecipeByIdSync(long id) {
+        return getRecipesInDefaultThread()
+                .toObservable()
+                .flatMap(Observable::fromArray)
+                .filter(recipe -> recipe.getId() == id)
+                .blockingFirst();
     }
 }
