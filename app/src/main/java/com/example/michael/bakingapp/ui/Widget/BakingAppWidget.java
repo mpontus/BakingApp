@@ -1,33 +1,35 @@
-package com.example.michael.bakingapp;
+package com.example.michael.bakingapp.ui.Widget;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
-import android.widget.RemoteViews;
+
+import com.example.michael.bakingapp.data.Preferences;
+import com.example.michael.bakingapp.ui.WidgetConfigure.WidgetConfigureActivity;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 /**
  * Implementation of App Widget functionality.
- * App Widget Configuration implemented in {@link BakingAppWidgetConfigureActivity BakingAppWidgetConfigureActivity}
+ * App Widget Configuration implemented in {@link WidgetConfigureActivity WidgetConfigureActivity}
  */
 public class BakingAppWidget extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    @Inject
+    WidgetUpdater widgetUpdater;
 
-        CharSequence widgetText = BakingAppWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
-
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-    }
+    @Inject
+    Preferences preferences;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        AndroidInjection.inject(this, context);
+
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+            widgetUpdater.updateWidget(appWidgetId);
         }
     }
 
@@ -35,7 +37,7 @@ public class BakingAppWidget extends AppWidgetProvider {
     public void onDeleted(Context context, int[] appWidgetIds) {
         // When the user deletes the widget, delete the preference associated with it.
         for (int appWidgetId : appWidgetIds) {
-            BakingAppWidgetConfigureActivity.deleteTitlePref(context, appWidgetId);
+            preferences.deleteWidgetPreferences(appWidgetId);
         }
     }
 

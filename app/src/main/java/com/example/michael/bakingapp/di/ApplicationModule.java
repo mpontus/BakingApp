@@ -2,6 +2,8 @@ package com.example.michael.bakingapp.di;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import javax.inject.Named;
 
@@ -17,6 +19,11 @@ import io.reactivex.schedulers.Schedulers;
 abstract class ApplicationModule {
     @Binds
     abstract Context provideContext(Application application);
+
+    @Provides
+    static SharedPreferences provideSharedPreferences(Application application) {
+        return PreferenceManager.getDefaultSharedPreferences(application);
+    }
 
     @Provides
     static CompositeDisposable provideCompositeDisposable() {

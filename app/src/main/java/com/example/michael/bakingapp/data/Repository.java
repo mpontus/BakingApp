@@ -10,6 +10,7 @@ import java.io.Reader;
 
 import javax.inject.Named;
 
+import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import okhttp3.Call;
@@ -69,5 +70,13 @@ public class Repository {
                 .subscribeOn(backgroundThreadScheduler)
                 .observeOn(mainThreadScheduler)
                 .cache();
+    }
+
+    public Single<Recipe> getRecipeById(long id) {
+        return getRecipes()
+                .toObservable()
+                .flatMap(Observable::fromArray)
+                .filter(recipe -> recipe.getId() == id)
+                .singleOrError();
     }
 }
