@@ -69,7 +69,7 @@ public class BakingAppRemoteViewsFactory implements RemoteViewsService.RemoteVie
         String quantityString = quantityFormatter.getQuantityString(ingredient.getQuantity(),
                 ingredient.getMeasure());
 
-        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget_item);
+        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.ingredient_item);
         rv.setTextViewText(R.id.ingredient, ingredient.getIngredient());
         rv.setTextViewText(R.id.quantity, quantityString);
 
