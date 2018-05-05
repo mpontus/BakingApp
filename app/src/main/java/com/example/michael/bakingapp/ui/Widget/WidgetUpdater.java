@@ -2,6 +2,8 @@ package com.example.michael.bakingapp.ui.Widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.widget.RemoteViews;
 
 import com.example.michael.bakingapp.R;
@@ -32,15 +34,17 @@ public class WidgetUpdater {
             return;
         }
 
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        Intent intent = new Intent(context, BakingAppWidgetSevice.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+
+        // When intents are compared, the extras are ignored, so we need to embed the extras
+        // into the data so that the extras will not be ignored.
+        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
+        views.setRemoteAdapter(R.id.ingredients, intent);
 
-        repository.getRecipeById(recipeId)
-                .subscribe(recipe -> {
-                    views.setTextViewText(R.id.appwidget_text, recipe.getName());
-
-                    // Instruct the widget manager to update the widget
-                    appWidgetManager.updateAppWidget(appWidgetId, views);
-                });
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 }

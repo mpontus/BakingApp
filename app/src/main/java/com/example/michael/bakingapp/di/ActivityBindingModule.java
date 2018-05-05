@@ -1,12 +1,13 @@
 package com.example.michael.bakingapp.di;
 
-import com.example.michael.bakingapp.ui.Widget.BakingAppWidget;
 import com.example.michael.bakingapp.ui.RecipeDetail.RecipeDetailActivity;
 import com.example.michael.bakingapp.ui.RecipeDetail.RecipeDetailModule;
 import com.example.michael.bakingapp.ui.RecipeList.RecipeListActivity;
 import com.example.michael.bakingapp.ui.RecipeList.RecipeListModule;
 import com.example.michael.bakingapp.ui.StepDetail.StepDetailActivity;
 import com.example.michael.bakingapp.ui.StepDetail.StepDetailModule;
+import com.example.michael.bakingapp.ui.Widget.BakingAppWidget;
+import com.example.michael.bakingapp.ui.Widget.BakingAppWidgetSevice;
 import com.example.michael.bakingapp.ui.WidgetConfigure.WidgetConfigureActivity;
 import com.example.michael.bakingapp.ui.WidgetConfigure.WidgetConfigureModule;
 
@@ -33,4 +34,7 @@ public abstract class ActivityBindingModule {
 
     @ContributesAndroidInjector
     abstract BakingAppWidget bakingAppWidget();
+
+    @ContributesAndroidInjector
+    abstract BakingAppWidgetSevice bakingAppWidgetSevice();
 }
