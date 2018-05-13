@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.michael.bakingapp.data.schema.Recipe;
+import com.example.michael.bakingapp.data.schema.Step;
 import com.example.michael.bakingapp.di.ActivityContext;
 import com.example.michael.bakingapp.ui.RecipeDetail.RecipeDetailActivity;
 import com.example.michael.bakingapp.ui.StepDetail.StepDetailActivity;
@@ -30,12 +31,11 @@ public class Navigator {
         context.startActivity(intent);
     }
 
-    public void launchStepDetailActivity(Recipe recipe, int stepIndex) {
+    public void launchStepDetailActivity(Recipe recipe, Step step) {
         Intent intent = new Intent(context, StepDetailActivity.class);
-        String serializedRecipe = gson.toJson(recipe);
 
-        intent.putExtra(StepDetailActivity.EXTRA_RECIPE, serializedRecipe);
-        intent.putExtra(StepDetailActivity.EXTRA_STEP_INDEX, stepIndex);
+        intent.putExtra(StepDetailActivity.EXTRA_RECIPE, gson.toJson(recipe));
+        intent.putExtra(StepDetailActivity.EXTRA_STEP, gson.toJson(step));
 
         context.startActivity(intent);
     }

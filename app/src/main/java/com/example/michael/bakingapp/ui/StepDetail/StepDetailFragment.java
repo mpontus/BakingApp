@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Optional;
 import dagger.android.support.DaggerFragment;
 
 public class StepDetailFragment extends DaggerFragment {
@@ -38,6 +41,10 @@ public class StepDetailFragment extends DaggerFragment {
     // Hide controls in master-detail layout
     private boolean hideControls = false;
 
+    private View.OnClickListener onNextClick;
+
+    private View.OnClickListener onPrevClick;
+
     @Nullable
     @BindView(R.id.description)
     TextView descriptionView;
@@ -48,6 +55,14 @@ public class StepDetailFragment extends DaggerFragment {
     @Nullable
     @BindView(R.id.controls)
     ViewGroup controlsView;
+
+    @Nullable
+    @BindView(R.id.btnNext)
+    Button nextButton;
+
+    @Nullable
+    @BindView(R.id.btnPrev)
+    Button prevButton;
 
     @Inject
     SimpleExoPlayer player;
@@ -107,6 +122,7 @@ public class StepDetailFragment extends DaggerFragment {
             this.controlsView.setVisibility(View.GONE);
         }
 
+
         return frameLayout;
     }
 
@@ -136,5 +152,45 @@ public class StepDetailFragment extends DaggerFragment {
 
     public void setHideControls(boolean hideControls) {
         this.hideControls = hideControls;
+    }
+
+    public void setOnNextClick(View.OnClickListener onNextClick) {
+        this.onNextClick = onNextClick;
+    }
+
+    public void setOnPrevClick(View.OnClickListener onPrevClick) {
+        this.onPrevClick = onPrevClick;
+    }
+
+    public void setNextStepHidden(boolean isHidden) {
+        if (this.nextButton == null) {
+            return;
+        }
+
+        this.nextButton.setVisibility(isHidden ? View.GONE : View.VISIBLE);
+    }
+
+    public void setPrevStepHidden(boolean isHidden) {
+        if (this.prevButton == null) {
+            return;
+        }
+
+        this.prevButton.setVisibility(isHidden ? View.GONE : View.VISIBLE);
+    }
+
+    @Optional
+    @OnClick(R.id.btnNext)
+    void handleNextClick(View view) {
+        if (this.onNextClick != null) {
+            this.onNextClick.onClick(view);
+        }
+    }
+
+    @Optional
+    @OnClick(R.id.btnPrev)
+    void handlePrevClick(View view) {
+        if (this.onPrevClick != null) {
+            this.onPrevClick.onClick(view);
+        }
     }
 }

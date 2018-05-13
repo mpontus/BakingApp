@@ -21,7 +21,7 @@ public class StepDetailActivity extends DaggerAppCompatActivity implements StepD
     StepDetailContract.Presenter presenter;
 
     public static final String EXTRA_RECIPE = "EXTRA_RECIPE";
-    public static final String EXTRA_STEP_INDEX = "EXTRA_STEP_INDEX";
+    public static final String EXTRA_STEP = "EXTRA_STEP";
 
     private StepDetailFragment stepDetailFragment;
 
@@ -34,6 +34,12 @@ public class StepDetailActivity extends DaggerAppCompatActivity implements StepD
         stepDetailFragment = new StepDetailFragment();
 
         stepDetailFragment.setFullscreenEnabled(true);
+        stepDetailFragment.setOnNextClick(view -> {
+            this.presenter.onNextClick();
+        });
+        stepDetailFragment.setOnPrevClick(view -> {
+            this.presenter.onPrevClick();
+        });
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main, stepDetailFragment)
@@ -93,5 +99,15 @@ public class StepDetailActivity extends DaggerAppCompatActivity implements StepD
         }
 
         stepDetailFragment.setStep(step);
+    }
+
+    @Override
+    public void setNextStepHidden(boolean isHidden) {
+        stepDetailFragment.setNextStepHidden(isHidden);
+    }
+
+    @Override
+    public void setPrevStepHidden(boolean isHidden) {
+        stepDetailFragment.setPrevStepHidden(isHidden);
     }
 }
