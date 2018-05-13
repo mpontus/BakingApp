@@ -107,11 +107,16 @@ public class StepDetailFragment extends DaggerFragment {
         }
 
 
-        Uri uri = Uri.parse(step.getVideoURL());
-        ExtractorMediaSource mediaSource = mediaSourceFactory.createMediaSource(uri);
+        if (!step.getVideoURL().isEmpty()) {
+            Uri uri = Uri.parse(step.getVideoURL());
+            ExtractorMediaSource mediaSource = mediaSourceFactory.createMediaSource(uri);
 
-        player.prepare(mediaSource);
-        player.setPlayWhenReady(true);
+            player.prepare(mediaSource);
+            player.setPlayWhenReady(true);
+            playerView.setVisibility(View.VISIBLE);
+        } else {
+            playerView.setVisibility(View.GONE);
+        }
     }
 
     public void setFullscreenEnabled(boolean fullscreenEnabled) {
