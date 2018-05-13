@@ -32,6 +32,9 @@ public class StepDetailFragment extends DaggerFragment {
     // We store step details in order to repopulate the views after configuraiton change
     private Step step;
 
+    // Disable player fullscreen on configuration change
+    private boolean fullscreenEnabled = false;
+
     @Nullable
     @BindView(R.id.description)
     TextView descriptionView;
@@ -50,7 +53,11 @@ public class StepDetailFragment extends DaggerFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         frameLayout = new FrameLayout(getActivity());
 
-        return inflateLayout(inflater);
+        Configuration configuration = getResources().getConfiguration();
+        boolean fullscreen = fullscreenEnabled &&
+                configuration.orientation == Configuration.ORIENTATION_LANDSCAPE;
+
+        return inflateLayout(inflater, fullscreen);
     }
 
     @Override
@@ -59,7 +66,10 @@ public class StepDetailFragment extends DaggerFragment {
 
         frameLayout.removeAllViews();
 
-        inflateLayout(LayoutInflater.from(getContext()));
+        boolean fullscreen = fullscreenEnabled &&
+                newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
+
+        inflateLayout(LayoutInflater.from(getContext()), fullscreen);
     }
 
 
@@ -69,8 +79,11 @@ public class StepDetailFragment extends DaggerFragment {
      * We extract the inflation logic in its own method in order to simplify re-inflation on
      * orientation change.
      */
-    private View inflateLayout(LayoutInflater inflater) {
-        View itemView = inflater.inflate(R.layout.step_detail, null);
+    private View inflateLayout(LayoutInflater inflater, boolean onlyPlayer) {
+        ViewGroup itemView = (ViewGroup) inflater.inflate(onlyPlayer
+                        ? R.layout.step_detail_land
+                        : R.layout.step_detail,
+                null);
 
         ButterKnife.bind(this, itemView);
 
@@ -79,8 +92,8 @@ public class StepDetailFragment extends DaggerFragment {
         frameLayout.addView(itemView);
 
         // Repopulate the views if the step details were already set.
-        if (step != null) {
-            setStep(step);
+        if (step != null && descriptionView != null) {
+            descriptionView.setText(step.getDescription());
         }
 
         return frameLayout;
@@ -94,13 +107,14 @@ public class StepDetailFragment extends DaggerFragment {
         }
 
 
-        if (player.getContentPosition() == 0) {
-            Uri uri = Uri.parse(step.getVideoURL());
-            ExtractorMediaSource mediaSource = mediaSourceFactory.createMediaSource(uri);
+        Uri uri = Uri.parse(step.getVideoURL());
+        ExtractorMediaSource mediaSource = mediaSourceFactory.createMediaSource(uri);
 
-            player.prepare(mediaSource);
-            player.setPlayWhenReady(true);
-        }
+        player.prepare(mediaSource);
+        player.setPlayWhenReady(true);
     }
 
+    public void setFullscreenEnabled(boolean fullscreenEnabled) {
+        this.fullscreenEnabled = fullscreenEnabled;
+    }
 }

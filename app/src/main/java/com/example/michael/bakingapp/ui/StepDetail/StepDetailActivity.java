@@ -31,6 +31,8 @@ public class StepDetailActivity extends DaggerAppCompatActivity implements StepD
 
         stepDetailFragment = new StepDetailFragment();
 
+        stepDetailFragment.setFullscreenEnabled(true);
+
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main, stepDetailFragment)
                 .commit();

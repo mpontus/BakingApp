@@ -7,7 +7,10 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.michael.bakingapp.data.schema.Recipe;
 import com.example.michael.bakingapp.di.ActivityContext;
+import com.example.michael.bakingapp.ui.StepDetail.StepDetailFragment;
 import com.example.michael.bakingapp.ui.utils.QuantityFormatter;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.gson.Gson;
 
 import dagger.Binds;
@@ -20,6 +23,14 @@ public abstract class RecipeDetailModule {
 
     @ContributesAndroidInjector
     abstract RecipeDetailFragment recipeDetailFragment();
+
+    @ContributesAndroidInjector
+    abstract StepDetailFragment stepDetailFragment();
+
+    @Provides
+    static ExtractorMediaSource.Factory provideMediaSourceFactory(DataSource.Factory dataSourceFactory) {
+        return new ExtractorMediaSource.Factory(dataSourceFactory);
+    }
 
     @Binds
     @ActivityContext
