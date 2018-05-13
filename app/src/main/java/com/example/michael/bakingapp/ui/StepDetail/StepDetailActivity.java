@@ -20,7 +20,9 @@ public class StepDetailActivity extends DaggerAppCompatActivity implements StepD
     @Inject
     StepDetailContract.Presenter presenter;
 
-    public static final String EXTRA_STEP = "EXTRA_STEP";
+    public static final String EXTRA_RECIPE = "EXTRA_RECIPE";
+    public static final String EXTRA_STEP_INDEX = "EXTRA_STEP_INDEX";
+
     private StepDetailFragment stepDetailFragment;
 
     @Override

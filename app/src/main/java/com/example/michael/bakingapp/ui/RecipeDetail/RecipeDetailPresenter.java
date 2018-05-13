@@ -4,6 +4,8 @@ import com.example.michael.bakingapp.data.Navigator;
 import com.example.michael.bakingapp.data.schema.Recipe;
 import com.example.michael.bakingapp.data.schema.Step;
 
+import java.util.Arrays;
+
 import javax.inject.Inject;
 
 public class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
@@ -43,6 +45,8 @@ public class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
             return;
         }
 
-        navigator.launchStepDetailActivity(step);
+        Step[] steps = recipe.getSteps();
+
+        navigator.launchStepDetailActivity(recipe, Arrays.asList(steps).indexOf(step));
     }
 }
