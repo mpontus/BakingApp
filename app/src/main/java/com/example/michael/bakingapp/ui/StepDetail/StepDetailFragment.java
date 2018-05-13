@@ -81,7 +81,7 @@ public class StepDetailFragment extends DaggerFragment {
      */
     private View inflateLayout(LayoutInflater inflater, boolean onlyPlayer) {
         ViewGroup itemView = (ViewGroup) inflater.inflate(onlyPlayer
-                        ? R.layout.step_detail_land
+                        ? R.layout.step_detail_fullscreen
                         : R.layout.step_detail,
                 null);
 
