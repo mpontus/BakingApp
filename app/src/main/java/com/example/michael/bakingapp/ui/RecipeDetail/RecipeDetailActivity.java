@@ -39,6 +39,7 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
 
         if (findViewById(R.id.secondary) != null) {
             stepDetailFragment = new StepDetailFragment();
+            stepDetailFragment.setHideControls(true);
 
             fragmentTransaction.add(R.id.secondary, stepDetailFragment);
         }

@@ -35,12 +35,19 @@ public class StepDetailFragment extends DaggerFragment {
     // Disable player fullscreen on configuration change
     private boolean fullscreenEnabled = false;
 
+    // Hide controls in master-detail layout
+    private boolean hideControls = false;
+
     @Nullable
     @BindView(R.id.description)
     TextView descriptionView;
 
     @BindView(R.id.player)
     PlayerView playerView;
+
+    @Nullable
+    @BindView(R.id.controls)
+    ViewGroup controlsView;
 
     @Inject
     SimpleExoPlayer player;
@@ -96,6 +103,10 @@ public class StepDetailFragment extends DaggerFragment {
             descriptionView.setText(step.getDescription());
         }
 
+        if (this.hideControls && this.controlsView != null) {
+            this.controlsView.setVisibility(View.GONE);
+        }
+
         return frameLayout;
     }
 
@@ -121,5 +132,9 @@ public class StepDetailFragment extends DaggerFragment {
 
     public void setFullscreenEnabled(boolean fullscreenEnabled) {
         this.fullscreenEnabled = fullscreenEnabled;
+    }
+
+    public void setHideControls(boolean hideControls) {
+        this.hideControls = hideControls;
     }
 }
