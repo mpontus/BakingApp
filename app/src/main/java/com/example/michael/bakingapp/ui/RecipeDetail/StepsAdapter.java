@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.michael.bakingapp.R;
@@ -60,6 +61,12 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
         @BindView(R.id.title)
         TextView titleView;
 
+        @BindView(R.id.hasVideoIcon)
+        ImageView hasVideoIcon;
+
+        @BindView(R.id.noVideoIcon)
+        ImageView noVideoIcon;
+
         public ViewHolder(View itemView, OnClickListener onClickListener) {
             super(itemView);
             this.onClickListener = onClickListener;
@@ -73,6 +80,14 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
             this.step = step;
 
             titleView.setText(step.getShortDescription());
+
+            if (step.getVideoURL().isEmpty()) {
+                hasVideoIcon.setVisibility(View.GONE);
+                noVideoIcon.setVisibility(View.VISIBLE);
+            } else {
+                noVideoIcon.setVisibility(View.GONE);
+                hasVideoIcon.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
