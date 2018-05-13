@@ -22,6 +22,13 @@ public class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
     @Override
     public void attach() {
         view.setRecipe(recipe);
+
+
+        Step[] steps = recipe.getSteps();
+
+        if (steps.length > 0) {
+            view.setStep(steps[0]);
+        }
     }
 
     @Override
