@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 
 import javax.inject.Named;
 
-import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Scheduler;
@@ -17,34 +16,47 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 @Module
-abstract class ApplicationModule {
-    @Binds
-    abstract Context provideContext(Application application);
+public class ApplicationModule {
+    private Application application;
+
+    public ApplicationModule(Application application) {
+        this.application = application;
+    }
 
     @Provides
-    static SharedPreferences provideSharedPreferences(Application application) {
+    Application provideApplication() {
+        return application;
+    }
+
+    @Provides
+    Context provideContext() {
+        return application;
+    }
+
+    @Provides
+    SharedPreferences provideSharedPreferences(Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
     }
 
     @Provides
-    static Resources provideResources(Application application) {
+    Resources provideResources(Application application) {
         return application.getResources();
     }
 
     @Provides
-    static CompositeDisposable provideCompositeDisposable() {
+    CompositeDisposable provideCompositeDisposable() {
         return new CompositeDisposable();
     }
 
     @Provides
     @Named("MAIN")
-    static Scheduler provideMainThreadScheduler() {
+    Scheduler provideMainThreadScheduler() {
         return AndroidSchedulers.mainThread();
     }
 
     @Provides
     @Named("BACKGROUND")
-    static Scheduler provideBackgroundThreadScheduler() {
+    Scheduler provideBackgroundThreadScheduler() {
         return Schedulers.io();
     }
 }

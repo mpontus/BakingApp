@@ -1,16 +1,55 @@
 package com.example.michael.bakingapp;
 
+import android.app.Activity;
+import android.app.Application;
+import android.app.Service;
+import android.content.BroadcastReceiver;
+
+import com.example.michael.bakingapp.di.ApplicationModule;
 import com.example.michael.bakingapp.di.DaggerAppComponent;
+import com.example.michael.bakingapp.di.RepositoryModule;
+
+import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
-import dagger.android.support.DaggerApplication;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+import dagger.android.HasBroadcastReceiverInjector;
+import dagger.android.HasServiceInjector;
 
-public class BakingAppApplication extends DaggerApplication {
+public class BakingAppApplication extends Application implements HasActivityInjector, HasBroadcastReceiverInjector, HasServiceInjector {
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingAndroidActivityInjector;
+
+    @Inject
+    DispatchingAndroidInjector<BroadcastReceiver> dispatchingAndroidBroadcastReceiverInjector;
+
+    @Inject
+    DispatchingAndroidInjector<Service> dispatchingAndroidServiceInjector;
+
     @Override
-    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
-        return DaggerAppComponent.builder()
-                .application(this)
-                .build();
+    public void onCreate() {
+        super.onCreate();
 
+        DaggerAppComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .repositoryModule(new RepositoryModule("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json"))
+                .build()
+                .inject(this);
+    }
+
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
+        return dispatchingAndroidActivityInjector;
+    }
+
+    @Override
+    public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
+        return dispatchingAndroidBroadcastReceiverInjector;
+    }
+
+    @Override
+    public AndroidInjector<Service> serviceInjector() {
+        return dispatchingAndroidServiceInjector;
     }
 }
