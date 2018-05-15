@@ -36,6 +36,7 @@ public class Navigator {
 
         intent.putExtra(StepDetailActivity.EXTRA_RECIPE, gson.toJson(recipe));
         intent.putExtra(StepDetailActivity.EXTRA_STEP, gson.toJson(step));
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         context.startActivity(intent);
     }

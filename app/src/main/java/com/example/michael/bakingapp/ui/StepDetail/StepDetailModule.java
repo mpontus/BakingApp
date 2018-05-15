@@ -73,7 +73,7 @@ public abstract class StepDetailModule {
         Step[] steps = recipe.getSteps();
         int currentIndex = getStepIndex(recipe, step);
 
-        if (currentIndex == steps.length) {
+        if (currentIndex >= steps.length - 1) {
             return null;
         }
 
