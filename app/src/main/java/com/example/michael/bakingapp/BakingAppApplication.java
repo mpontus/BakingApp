@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import com.example.michael.bakingapp.di.ApplicationModule;
 import com.example.michael.bakingapp.di.DaggerAppComponent;
 import com.example.michael.bakingapp.di.RepositoryModule;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
@@ -21,6 +22,9 @@ import okhttp3.OkHttpClient;
 public class BakingAppApplication extends Application implements HasActivityInjector, HasBroadcastReceiverInjector, HasServiceInjector {
     @Inject
     public OkHttpClient okHttpClient;
+
+    @Inject
+    public Gson gson;
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidActivityInjector;

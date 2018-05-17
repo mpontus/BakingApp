@@ -34,7 +34,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class RecipeListActivityTest {
     private OkHttp3IdlingResource idlingResource;
 
     @Rule
