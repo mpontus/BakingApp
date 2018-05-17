@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -23,18 +24,21 @@ public class RepositoryModule {
     }
 
     @Provides
+    @Singleton
     Gson provideGson() {
         return new GsonBuilder()
                 .create();
     }
 
     @Provides
+    @Singleton
     OkHttpClient provideOkHttpClient() {
         return new OkHttpClient.Builder()
                 .build();
     }
 
     @Provides
+    @Singleton
     Repository provideRecipeRepository(OkHttpClient client,
                                        Gson gson,
                                        @Named("MAIN") Scheduler mainThreadScheduler,

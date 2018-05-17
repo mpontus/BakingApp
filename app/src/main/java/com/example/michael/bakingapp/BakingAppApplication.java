@@ -16,8 +16,12 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import dagger.android.HasBroadcastReceiverInjector;
 import dagger.android.HasServiceInjector;
+import okhttp3.OkHttpClient;
 
 public class BakingAppApplication extends Application implements HasActivityInjector, HasBroadcastReceiverInjector, HasServiceInjector {
+    @Inject
+    public OkHttpClient okHttpClient;
+
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidActivityInjector;
 
