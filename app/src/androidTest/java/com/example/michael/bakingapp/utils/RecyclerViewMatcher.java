@@ -1,4 +1,4 @@
-package com.example.michael.bakingapp;
+package com.example.michael.bakingapp.utils;
 
 import android.support.annotation.NonNull;
 import android.support.test.espresso.matcher.BoundedMatcher;
@@ -10,7 +10,7 @@ import org.hamcrest.Matcher;
 
 import static android.support.test.internal.util.Checks.checkNotNull;
 
-public class Utils {
+public class RecyclerViewMatcher {
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
         checkNotNull(itemMatcher);
         return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
@@ -31,5 +31,4 @@ public class Utils {
             }
         };
     }
-
 }

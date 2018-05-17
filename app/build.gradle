@@ -31,7 +31,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.1'
-    androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
 
     // Extra UI Components
     implementation 'com.android.support:design:27.1.0'

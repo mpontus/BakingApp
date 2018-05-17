@@ -3,19 +3,17 @@ package com.example.michael.bakingapp;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.NoMatchingViewException;
-import android.support.test.espresso.ViewAssertion;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.example.michael.bakingapp.ui.RecipeDetail.RecipeDetailActivity;
 import com.example.michael.bakingapp.ui.RecipeList.RecipeListActivity;
-import com.jakewharton.espresso.OkHttp3IdlingResource;
+import com.example.michael.bakingapp.utils.OkHttp3IdlingResource;
+import com.example.michael.bakingapp.utils.RecyclerViewItemCountAssertion;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,14 +29,14 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.isInte
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.example.michael.bakingapp.Utils.atPosition;
-import static org.hamcrest.CoreMatchers.is;
+import static com.example.michael.bakingapp.utils.RecyclerViewMatcher.atPosition;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
+    private OkHttp3IdlingResource idlingResource;
+
     @Rule
     public IntentsTestRule<RecipeListActivity> mActivityRule = new IntentsTestRule<>(RecipeListActivity.class);
 
@@ -48,9 +46,14 @@ public class MainActivityTest {
                 (BakingAppApplication) InstrumentationRegistry.getTargetContext()
                         .getApplicationContext();
 
-        OkHttp3IdlingResource idlingResource = OkHttp3IdlingResource.create("OkHttp", application.okHttpClient);
+        idlingResource = OkHttp3IdlingResource.create("OkHttp", application.okHttpClient);
 
-        Espresso.registerIdlingResources(idlingResource);
+        IdlingRegistry.getInstance().register(idlingResource);
+    }
+
+    @After
+    public void unregisterIdlingResource() {
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     @Before
@@ -73,25 +76,5 @@ public class MainActivityTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         intended(allOf(hasComponent(RecipeDetailActivity.class.getName())));
-    }
-
-    // Source: https://stackoverflow.com/a/37339656/326574
-    public class RecyclerViewItemCountAssertion implements ViewAssertion {
-        private final int expectedCount;
-
-        public RecyclerViewItemCountAssertion(int expectedCount) {
-            this.expectedCount = expectedCount;
-        }
-
-        @Override
-        public void check(View view, NoMatchingViewException noViewFoundException) {
-            if (noViewFoundException != null) {
-                throw noViewFoundException;
-            }
-
-            RecyclerView recyclerView = (RecyclerView) view;
-            RecyclerView.Adapter adapter = recyclerView.getAdapter();
-            assertThat(adapter.getItemCount(), is(expectedCount));
-        }
     }
 }
