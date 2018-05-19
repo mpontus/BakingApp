@@ -3,7 +3,6 @@ package com.example.michael.bakingapp;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -16,6 +15,7 @@ import com.example.michael.bakingapp.ui.StepDetail.StepDetailActivity;
 import com.example.michael.bakingapp.utils.RecyclerViewItemCountAssertion;
 import com.google.gson.Gson;
 
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -88,13 +88,8 @@ public class RecipeDetailActivityTest {
 
     @Test
     public void opensStepDetail() {
-        Configuration configuration =
-                InstrumentationRegistry.getContext().getResources().getConfiguration();
-
-        // This test should only run on the phones
-        if (configuration.screenWidthDp > 600) {
-            return;
-        }
+        // Skip test on tablets
+        Assume.assumeTrue(getSmallestScreenWidth() < 600);
 
         onView(withId(R.id.steps))
                 .perform(scrollTo(), RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -104,30 +99,28 @@ public class RecipeDetailActivityTest {
 
     @Test
     public void tabletShowsFirstStep() {
-        Configuration configuration =
-                InstrumentationRegistry.getContext().getResources().getConfiguration();
-
-        // This test should only run on the tablets
-        if (configuration.screenWidthDp <= 600) {
-            return;
-        }
+        // Skip test on phones
+        Assume.assumeTrue(getSmallestScreenWidth() >= 600);
 
         onView(withId(R.id.description)).check(matches(withText("Recipe Introduction")));
     }
 
     @Test
     public void tabletSelectDifferentStep() {
-        Configuration configuration =
-                InstrumentationRegistry.getContext().getResources().getConfiguration();
-
-        // This test should only run on the tablets
-        if (configuration.screenWidthDp <= 600) {
-            return;
-        }
+        // Skip test on phones
+        Assume.assumeTrue(getSmallestScreenWidth() >= 600);
 
         onView(withId(R.id.steps))
                 .perform(scrollTo(), RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
         onView(withId(R.id.description)).check(matches(withText("1. Preheat the oven to 350\u00b0F. Butter a 9\" deep dish pie pan.")));
+    }
+
+    private int getSmallestScreenWidth() {
+        return InstrumentationRegistry
+                .getContext()
+                .getResources()
+                .getConfiguration()
+                .smallestScreenWidthDp;
     }
 }
