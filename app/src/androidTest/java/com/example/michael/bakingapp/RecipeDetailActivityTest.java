@@ -3,6 +3,7 @@ package com.example.michael.bakingapp;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -87,9 +88,46 @@ public class RecipeDetailActivityTest {
 
     @Test
     public void opensStepDetail() {
+        Configuration configuration =
+                InstrumentationRegistry.getContext().getResources().getConfiguration();
+
+        // This test should only run on the phones
+        if (configuration.screenWidthDp > 600) {
+            return;
+        }
+
         onView(withId(R.id.steps))
                 .perform(scrollTo(), RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         intended(allOf(hasComponent(StepDetailActivity.class.getName())));
+    }
+
+    @Test
+    public void tabletShowsFirstStep() {
+        Configuration configuration =
+                InstrumentationRegistry.getContext().getResources().getConfiguration();
+
+        // This test should only run on the tablets
+        if (configuration.screenWidthDp <= 600) {
+            return;
+        }
+
+        onView(withId(R.id.description)).check(matches(withText("Recipe Introduction")));
+    }
+
+    @Test
+    public void tabletSelectDifferentStep() {
+        Configuration configuration =
+                InstrumentationRegistry.getContext().getResources().getConfiguration();
+
+        // This test should only run on the tablets
+        if (configuration.screenWidthDp <= 600) {
+            return;
+        }
+
+        onView(withId(R.id.steps))
+                .perform(scrollTo(), RecyclerViewActions.actionOnItemAtPosition(1, click()));
+
+        onView(withId(R.id.description)).check(matches(withText("1. Preheat the oven to 350\u00b0F. Butter a 9\" deep dish pie pan.")));
     }
 }
