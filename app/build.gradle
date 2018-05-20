@@ -59,4 +59,7 @@ dependencies {
 
     // Exoplayer for videos
     implementation 'com.google.android.exoplayer:exoplayer:2.7.3'
+
+    // Picasso for thumbnails
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

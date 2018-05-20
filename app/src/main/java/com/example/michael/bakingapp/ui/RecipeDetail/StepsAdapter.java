@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.michael.bakingapp.R;
 import com.example.michael.bakingapp.data.schema.Step;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,6 +68,9 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
         @BindView(R.id.noVideoIcon)
         ImageView noVideoIcon;
 
+        @BindView(R.id.thumbnail)
+        ImageView thumbnailView;
+
         public ViewHolder(View itemView, OnClickListener onClickListener) {
             super(itemView);
             this.onClickListener = onClickListener;
@@ -87,6 +91,12 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
             } else {
                 noVideoIcon.setVisibility(View.GONE);
                 hasVideoIcon.setVisibility(View.VISIBLE);
+            }
+
+            if (!step.getThumbnailURL().isEmpty()) {
+                Picasso.get().load(step.getThumbnailURL()).into(thumbnailView);
+            } else {
+                thumbnailView.setVisibility(View.GONE);
             }
         }
 

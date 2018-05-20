@@ -14,9 +14,6 @@ import okhttp3.OkHttpClient;
 
 @Module
 public class RepositoryModule {
-    private static final String RECIPE_LIST_URL =
-            "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
-
     private String baseUrl;
 
     public RepositoryModule(String baseUrl) {
@@ -43,7 +40,7 @@ public class RepositoryModule {
                                        Gson gson,
                                        @Named("MAIN") Scheduler mainThreadScheduler,
                                        @Named("BACKGROUND") Scheduler backgroundThreadScheduler) {
-        return new Repository(client, gson, mainThreadScheduler, backgroundThreadScheduler, RECIPE_LIST_URL);
+        return new Repository(client, gson, mainThreadScheduler, backgroundThreadScheduler, baseUrl);
     }
 
 }
