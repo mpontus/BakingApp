@@ -20,9 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.RecipeDetail.RecipeDetailActivity" />
-        <activity
-            android:name=".ui.StepDetail.StepDetailActivity"
-            android:configChanges="orientation|screenSize|layoutDirection" />
+        <activity android:name=".ui.StepDetail.StepDetailActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
