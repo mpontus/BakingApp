@@ -110,6 +110,7 @@ public class StepDetailFragment extends DaggerFragment {
         ButterKnife.bind(this, itemView);
 
         playerView.setPlayer(player);
+        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
         frameLayout.addView(itemView);
 
