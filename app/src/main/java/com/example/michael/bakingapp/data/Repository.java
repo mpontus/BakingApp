@@ -26,21 +26,54 @@ public class Repository {
     private Scheduler mainThreadScheduler;
     private Scheduler backgroundThreadScheduler;
     private String recipesUrl;
+    private Connectivity connectivity;
 
     public Repository(OkHttpClient client,
                       Gson gson,
                       @Named("MAIN") Scheduler mainThreadScheduler,
                       @Named("BACKGROUND") Scheduler backgroundThreadScheduler,
-                      String recipesUrl) {
+                      String recipesUrl,
+                      Connectivity connectivity) {
         this.client = client;
         this.gson = gson;
         this.mainThreadScheduler = mainThreadScheduler;
         this.backgroundThreadScheduler = backgroundThreadScheduler;
         this.recipesUrl = recipesUrl;
+        this.connectivity = connectivity;
     }
 
     public Single<Recipe[]> getRecipesInDefaultThread() {
-        Single<Recipe[]> objectSingle = Single.create(emitter -> {
+        return connectivity.isOnline()
+                .filter(isOnline -> isOnline)
+                .singleOrError()
+                .to(isOnline -> fetchRecipes())
+                .cache();
+    }
+
+    public Single<Recipe[]> getRecipes() {
+        return getRecipesInDefaultThread()
+                .subscribeOn(backgroundThreadScheduler)
+                .observeOn(mainThreadScheduler);
+    }
+
+    public Single<Recipe> getRecipeById(long id) {
+        return getRecipes()
+                .toObservable()
+                .flatMap(Observable::fromArray)
+                .filter(recipe -> recipe.getId() == id)
+                .singleOrError();
+    }
+
+    public Recipe getRecipeByIdSync(long id) {
+        return getRecipesInDefaultThread()
+                .toObservable()
+                .flatMap(Observable::fromArray)
+                .filter(recipe -> recipe.getId() == id)
+                .blockingFirst();
+    }
+
+    private Single<Recipe[]> fetchRecipes() {
+        return Single.create(emitter -> {
             Request request = new Request.Builder()
                     .url(recipesUrl)
                     .build();
@@ -65,30 +98,5 @@ public class Repository {
                 }
             });
         });
-
-        return objectSingle
-                .cache();
-    }
-
-    public Single<Recipe[]> getRecipes() {
-        return getRecipesInDefaultThread()
-                .subscribeOn(backgroundThreadScheduler)
-                .observeOn(mainThreadScheduler);
-    }
-
-    public Single<Recipe> getRecipeById(long id) {
-        return getRecipes()
-                .toObservable()
-                .flatMap(Observable::fromArray)
-                .filter(recipe -> recipe.getId() == id)
-                .singleOrError();
-    }
-
-    public Recipe getRecipeByIdSync(long id) {
-        return getRecipesInDefaultThread()
-                .toObservable()
-                .flatMap(Observable::fromArray)
-                .filter(recipe -> recipe.getId() == id)
-                .blockingFirst();
     }
 }
