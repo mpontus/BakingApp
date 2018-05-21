@@ -10,6 +10,7 @@ import com.example.michael.bakingapp.R;
 import com.example.michael.bakingapp.data.schema.Recipe;
 import com.example.michael.bakingapp.data.schema.Step;
 import com.example.michael.bakingapp.ui.StepDetail.StepDetailFragment;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
@@ -18,13 +19,19 @@ import dagger.android.support.DaggerAppCompatActivity;
 public class RecipeDetailActivity extends DaggerAppCompatActivity
         implements RecipeDetailContract.View, StepsAdapter.ViewHolder.OnClickListener {
 
+    public static final String EXTRA_RECIPE = "EXTRA_RECIPE";
+    private static final String SAVED_STEP = "SAVED_STEP";
+
     @Inject
     RecipeDetailContract.Presenter presenter;
 
-    public static final String EXTRA_RECIPE = "EXTRA_RECIPE";
+    @Inject
+    Gson gson;
 
-    RecipeDetailFragment recipeDetailFragment;
-    StepDetailFragment stepDetailFragment;
+    private RecipeDetailFragment recipeDetailFragment;
+    private StepDetailFragment stepDetailFragment;
+    private Step selectedStep = null;
+    private Bundle savedInstanceState = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +58,17 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        this.savedInstanceState = savedInstanceState;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (selectedStep != null) {
+            outState.putString(SAVED_STEP, gson.toJson(selectedStep));
+        }
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -69,6 +87,14 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
         super.onResume();
 
         presenter.attach();
+
+        if (savedInstanceState != null) {
+            String serializedStep = savedInstanceState.getString(SAVED_STEP);
+
+            if (serializedStep != null) {
+                setStep(gson.fromJson(serializedStep, Step.class));
+            }
+        }
     }
 
     @Override
@@ -92,7 +118,15 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
     @Override
     public void setStep(Step step) {
         if (stepDetailFragment != null) {
+            selectedStep = step;
             stepDetailFragment.setStep(step);
+        }
+    }
+
+    @Override
+    public void setDefaultStep(Step step) {
+        if (selectedStep == null) {
+            setStep(step);
         }
     }
 

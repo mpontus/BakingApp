@@ -27,7 +27,7 @@ public class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
         Step[] steps = recipe.getSteps();
 
         if (steps.length > 0) {
-            view.setStep(steps[0]);
+            view.setDefaultStep(steps[0]);
         }
     }
 

@@ -16,6 +16,8 @@ public interface RecipeDetailContract {
     interface View {
         void setRecipe(Recipe recipe);
 
+        void setDefaultStep(Step step);
+
         void setStep(Step step);
 
         boolean isMasterDetailLayout();

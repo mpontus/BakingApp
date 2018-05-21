@@ -130,7 +130,13 @@ public class StepDetailFragment extends DaggerFragment {
         this.step = step;
 
         if (descriptionView != null) {
-            descriptionView.setText(step.getDescription());
+            String description = step.getDescription();
+
+            if (description.isEmpty()) {
+                description = step.getShortDescription();
+            }
+
+            descriptionView.setText(description);
         }
 
 
