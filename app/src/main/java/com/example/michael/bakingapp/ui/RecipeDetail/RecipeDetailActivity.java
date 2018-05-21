@@ -42,13 +42,13 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.add(R.id.main, recipeDetailFragment);
+        fragmentTransaction.replace(R.id.main, recipeDetailFragment);
 
         if (findViewById(R.id.secondary) != null) {
             stepDetailFragment = new StepDetailFragment();
             stepDetailFragment.setHideControls(true);
 
-            fragmentTransaction.add(R.id.secondary, stepDetailFragment);
+            fragmentTransaction.replace(R.id.secondary, stepDetailFragment);
         }
 
         fragmentTransaction.commit();
