@@ -52,7 +52,7 @@ public class StepDetailPresenter implements StepDetailContract.Presenter {
     @Override
     public void detach() {
         compositeDisposable.dispose();
-        exoPlayer.release();
+        exoPlayer.stop();
     }
 
     @Override
