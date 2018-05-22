@@ -59,6 +59,7 @@ public class StepDetailFragment extends DaggerFragment {
     @BindView(R.id.player)
     PlayerView playerView;
 
+    @Nullable
     @BindView(R.id.thumbnail)
     ImageView thumbnailView;
 
@@ -161,7 +162,10 @@ public class StepDetailFragment extends DaggerFragment {
         }
 
         playerView.setVisibility(View.GONE);
-        thumbnailView.setVisibility(View.GONE);
+
+        if (thumbnailView != null) {
+            thumbnailView.setVisibility(View.GONE);
+        }
 
         if (!step.getVideoURL().isEmpty()) {
             Uri uri = Uri.parse(step.getVideoURL());
@@ -181,10 +185,12 @@ public class StepDetailFragment extends DaggerFragment {
 
             playerView.setVisibility(View.VISIBLE);
         } else if (!step.getThumbnailURL().isEmpty()) {
-            Picasso.get().load(step.getThumbnailURL())
-                    .into(thumbnailView);
+            if (thumbnailView != null) {
+                Picasso.get().load(step.getThumbnailURL())
+                        .into(thumbnailView);
 
-            thumbnailView.setVisibility(View.VISIBLE);
+                thumbnailView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
