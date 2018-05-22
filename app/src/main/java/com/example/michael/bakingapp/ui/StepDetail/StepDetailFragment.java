@@ -28,6 +28,9 @@ import dagger.android.support.DaggerFragment;
 
 public class StepDetailFragment extends DaggerFragment {
 
+    private static final String SAVED_STATE = "SAVED_STATE";
+    private static final String SAVED_POSITION = "SAVED_POSITION";
+
     // We use FrameLayout to host the inflated layout to simplify its repopulation during
     // orientation chnage
     private FrameLayout frameLayout;
@@ -44,6 +47,8 @@ public class StepDetailFragment extends DaggerFragment {
     private View.OnClickListener onNextClick;
 
     private View.OnClickListener onPrevClick;
+
+    private Bundle savedInstanceState;
 
     @Nullable
     @BindView(R.id.description)
@@ -78,6 +83,8 @@ public class StepDetailFragment extends DaggerFragment {
         Configuration configuration = getResources().getConfiguration();
         boolean fullscreen = fullscreenEnabled &&
                 configuration.orientation == Configuration.ORIENTATION_LANDSCAPE;
+
+        this.savedInstanceState = savedInstanceState;
 
         return inflateLayout(inflater, fullscreen);
     }
@@ -127,6 +134,14 @@ public class StepDetailFragment extends DaggerFragment {
         return frameLayout;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean(SAVED_STATE, player.getPlayWhenReady());
+        outState.putLong(SAVED_POSITION, player.getCurrentPosition());
+
+        super.onSaveInstanceState(outState);
+    }
+
     public void setStep(Step step) {
         this.step = step;
 
@@ -146,7 +161,17 @@ public class StepDetailFragment extends DaggerFragment {
             ExtractorMediaSource mediaSource = mediaSourceFactory.createMediaSource(uri);
 
             player.prepare(mediaSource);
-            player.setPlayWhenReady(true);
+
+            if (savedInstanceState != null) {
+                boolean state = savedInstanceState.getBoolean(SAVED_STATE);
+                long position = savedInstanceState.getLong(SAVED_POSITION);
+
+                player.setPlayWhenReady(state);
+                player.seekTo(position);
+            } else {
+                player.setPlayWhenReady(true);
+            }
+
             playerView.setVisibility(View.VISIBLE);
         } else {
             playerView.setVisibility(View.GONE);

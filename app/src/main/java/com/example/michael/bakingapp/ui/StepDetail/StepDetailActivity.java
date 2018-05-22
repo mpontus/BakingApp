@@ -22,6 +22,7 @@ public class StepDetailActivity extends DaggerAppCompatActivity implements StepD
 
     public static final String EXTRA_RECIPE = "EXTRA_RECIPE";
     public static final String EXTRA_STEP = "EXTRA_STEP";
+    private static final String FRAGMENT_TAG = "FRAGMENT_TAG";
 
     private StepDetailFragment stepDetailFragment;
 
@@ -31,7 +32,16 @@ public class StepDetailActivity extends DaggerAppCompatActivity implements StepD
         setContentView(R.layout.activity_step_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        stepDetailFragment = new StepDetailFragment();
+        if (savedInstanceState == null) {
+            stepDetailFragment = new StepDetailFragment();
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main, stepDetailFragment, FRAGMENT_TAG)
+                    .commit();
+        } else {
+            stepDetailFragment = (StepDetailFragment) getSupportFragmentManager()
+                    .findFragmentByTag(FRAGMENT_TAG);
+        }
 
         stepDetailFragment.setFullscreenEnabled(true);
         stepDetailFragment.setOnNextClick(view -> {
@@ -40,10 +50,6 @@ public class StepDetailActivity extends DaggerAppCompatActivity implements StepD
         stepDetailFragment.setOnPrevClick(view -> {
             this.presenter.onPrevClick();
         });
-
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.main, stepDetailFragment)
-                .commit();
 
         applyWindowConfiguration(getResources().getConfiguration());
     }

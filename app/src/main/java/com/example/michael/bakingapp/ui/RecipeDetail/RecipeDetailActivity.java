@@ -21,6 +21,8 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
 
     public static final String EXTRA_RECIPE = "EXTRA_RECIPE";
     private static final String SAVED_STEP = "SAVED_STEP";
+    public static final String FRAGMENT_TAG_MAIN = "FRAGMENT_TAG_MAIN";
+    public static final String FRAGMENT_TAG_DETAIL = "FRAGMENT_TAG_DETAIL";
 
     @Inject
     RecipeDetailContract.Presenter presenter;
@@ -38,20 +40,28 @@ public class RecipeDetailActivity extends DaggerAppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
 
-        recipeDetailFragment = new RecipeDetailFragment();
+        if (savedInstanceState == null) {
+            recipeDetailFragment = new RecipeDetailFragment();
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.main, recipeDetailFragment);
+            fragmentTransaction.replace(R.id.main, recipeDetailFragment, FRAGMENT_TAG_MAIN);
 
-        if (findViewById(R.id.secondary) != null) {
-            stepDetailFragment = new StepDetailFragment();
-            stepDetailFragment.setHideControls(true);
+            if (findViewById(R.id.secondary) != null) {
+                stepDetailFragment = new StepDetailFragment();
+                stepDetailFragment.setHideControls(true);
 
-            fragmentTransaction.replace(R.id.secondary, stepDetailFragment);
+                fragmentTransaction.replace(R.id.secondary, stepDetailFragment, FRAGMENT_TAG_DETAIL);
+            }
+
+            fragmentTransaction.commit();
+        } else {
+            recipeDetailFragment = (RecipeDetailFragment) getSupportFragmentManager()
+                    .findFragmentByTag(FRAGMENT_TAG_MAIN);
+
+            stepDetailFragment = (StepDetailFragment) getSupportFragmentManager()
+                    .findFragmentByTag(FRAGMENT_TAG_DETAIL);
         }
-
-        fragmentTransaction.commit();
 
         ActionBar actionBar = getSupportActionBar();
 
