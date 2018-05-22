@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.michael.bakingapp.R;
@@ -17,6 +18,7 @@ import com.example.michael.bakingapp.data.schema.Step;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -56,6 +58,9 @@ public class StepDetailFragment extends DaggerFragment {
 
     @BindView(R.id.player)
     PlayerView playerView;
+
+    @BindView(R.id.thumbnail)
+    ImageView thumbnailView;
 
     @Nullable
     @BindView(R.id.controls)
@@ -155,6 +160,8 @@ public class StepDetailFragment extends DaggerFragment {
             descriptionView.setText(description);
         }
 
+        playerView.setVisibility(View.GONE);
+        thumbnailView.setVisibility(View.GONE);
 
         if (!step.getVideoURL().isEmpty()) {
             Uri uri = Uri.parse(step.getVideoURL());
@@ -173,8 +180,11 @@ public class StepDetailFragment extends DaggerFragment {
             }
 
             playerView.setVisibility(View.VISIBLE);
-        } else {
-            playerView.setVisibility(View.GONE);
+        } else if (!step.getThumbnailURL().isEmpty()) {
+            Picasso.get().load(step.getThumbnailURL())
+                    .into(thumbnailView);
+
+            thumbnailView.setVisibility(View.VISIBLE);
         }
     }
 

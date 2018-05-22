@@ -41,7 +41,7 @@ public class BakingAppApplication extends Application implements HasActivityInje
 
         DaggerAppComponent.builder()
                 .applicationModule(new ApplicationModule(this))
-                .repositoryModule(new RepositoryModule("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json"))
+                .repositoryModule(new RepositoryModule("https://gist.githubusercontent.com/mpontus/8ea265da06938f52d15d241cc8d33ecb/raw/aa6f71091433ac6c7d40202c7567f1f2d061dd18/gistfile1.txt"))
                 .build()
                 .inject(this);
     }
